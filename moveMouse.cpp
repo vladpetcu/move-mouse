@@ -38,6 +38,17 @@ bool run = true, isExit = false, moving = false;
 unsigned int menuSelectY = 7;
 POINT mousePointer;
 
+class PowerHelper {
+    public:
+    static void ForceSystemAwake() {
+        SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED);
+    }
+
+    static void ResetSystemDefault() {
+        SetThreadExecutionState(ES_CONTINUOUS);
+    }
+};
+
 void moveMouse() {
     while (run) {
         Sleep(MOVE_INTERVAL);
@@ -57,7 +68,9 @@ void moveMouse() {
 void handleOnSelect() {
     if (isExit) {
         run = false;
+        PowerHelper::ResetSystemDefault();
     } else {
+        PowerHelper::ForceSystemAwake();
         moving = !moving;
         if (moving) {
             strcpy(menu[7], "#    |  > Stop          |    #");
