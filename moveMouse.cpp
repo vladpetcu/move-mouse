@@ -76,6 +76,8 @@ void renderMenu() {
 
 int main()
 {
+    SetConsoleTitleA("Move Mouse");
+
     auto moveThread = thread{
         []() {
             moveMouse();
